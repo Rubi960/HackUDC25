@@ -9,6 +9,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.min_quartz.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}" >
 
@@ -59,5 +60,6 @@
     {% block content %}
     {% endblock %}
     {% include 'chat.html' %}
+    <script src="{% static 'javascript/support-chat.js' %}"></script>
 </body>
 </html>
