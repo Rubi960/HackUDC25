@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from .models import Analysis
-
+from .profiler import Profiler
 
 # Create your views here.
 def index(request):
@@ -14,14 +14,10 @@ def index(request):
 def analyze(request):
     if request.method == 'POST':
         option = request.POST.get('option', '')
+        profiler = Profiler(request.user)
+        
+        # [PENDING]
 
-        #completion = client.chat.completions.create(
-        #    model="gpt-4o",
-        #    messages=[
-        #        {"role": "system", "content": "You are a helpful assistant."},
-        #        {"role": "user", "content": message}
-        #    ]
-        #)
         placeholder = [
             f"Analysis {option} run,"
         ]

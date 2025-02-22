@@ -66,6 +66,13 @@
                     <button class="btn btn-primary" type="submit" id="send-button">Send</button>
                 </form>
             </div>
+            <div>
+                <form method="POST" id="terminate-session">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-link" id="terminate-button">Terminate session</button>
+                </form>
+            </div>
+
         </main>
     </div>
 
@@ -74,6 +81,29 @@
     const chatInput = document.getElementById('chat-input');
     const sendButton = document.getElementById('send-button');
     const chatHistory = document.getElementById('chat-history');
+    const terminateButton = document.getElementById('terminate-button');
+
+    terminateButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch("{% url 'terminate' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: new URLSearchParams({
+                'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'message': message,
+                'assistant': self.assistant
+            })
+
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
     chatForm.addEventListener('submit', function(event) {
         event.preventDefault();
