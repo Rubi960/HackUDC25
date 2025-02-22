@@ -40,8 +40,8 @@ h1 {
 }
 
 .function a {
-    text-decoration: none;
-    color: #007BFF;
+    text-decoration: whitesmoke;
+    color: #ee831f;
 }
 
 .function a:hover {

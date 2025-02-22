@@ -26,3 +26,11 @@ function sendMessage() {
         sendMessage();
     }
 });
+
+window.addEventListener('beforeunload', function (e) {
+    // Evitar que el navegador cierre inmediatamente
+    //e.preventDefault();
+    alert("El navegador se va a cerrar.");
+    // Mostrar un mensaje de confirmación (opcional)
+    console.log("El navegador se va a cerrar.");
+});
