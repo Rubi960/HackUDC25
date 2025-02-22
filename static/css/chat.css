@@ -1,0 +1,71 @@
+/* Estilos para el botón flotante */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5); /* Botón transparente */
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Estilos para la subventana del chat */
+  .chat-window {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: rgb(214, 236, 240);
+    border: 3px solid #742a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: none; /* Oculto por defecto */
+    flex-direction: column;
+  }
+
+  /* Estilos para el área de mensajes */
+  .chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border-bottom: 1px solid #050404;
+  }
+
+  /* Estilos para el campo de entrada y el botón de enviar */
+  .chat-input {
+    display: flex;
+    padding: 10px;
+  }
+
+  .chat-input input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .chat-input button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Estilos para los mensajes */
+  .message {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #aa3f3f;
+    border-radius: 5px;
+  }
