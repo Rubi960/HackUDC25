@@ -34,7 +34,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             context = {}
-            return render(request, 'login/base.html', context) # TODO -> Temporal
+            return redirect('/chat')
         logout(request=request)
         context={'error':'El usuario introducido no es correcto'}
         return render(request,'login/base.html', context)
@@ -66,7 +66,7 @@ def register(request):
                 if user is not None:
                     context = {}
                     login(request, user)
-                    return render(request, 'login/base.html', context) # TODO -> Temporal
+                    return redirect('/chat')
                 else:
                     return redirect('/register')
             else:
