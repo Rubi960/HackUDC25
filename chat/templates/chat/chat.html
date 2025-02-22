@@ -53,7 +53,7 @@
             border-top: 1px solid #e5e7eb;
         }
     </style>
-    
+
     <div class="chat-container">
         <main class="flex flex-col flex-grow p-4">
             <div id="chat-history" class="chat-history mb-4 p-4 rounded shadow">
@@ -66,110 +66,80 @@
                     <button class="btn btn-primary" type="submit" id="send-button">Send</button>
                 </form>
             </div>
-            <div>
-                <form method="POST" id="terminate-session">
-                    {% csrf_token %}
-                    <button type="button" class="btn btn-link" id="terminate-button">Terminate session</button>
-                </form>
-            </div>
-
         </main>
     </div>
 
-<script>
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const sendButton = document.getElementById('send-button');
-    const chatHistory = document.getElementById('chat-history');
-    const terminateButton = document.getElementById('terminate-button');
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatHistory = document.getElementById('chat-history');
 
-    terminateButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        fetch("{% url 'terminate' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            body: new URLSearchParams({
-                'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                'message': message,
-                'assistant': self.assistant
-            })
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = chatInput.value.trim()
+            if (message) {
+                chatInput.disabled = true;
+                chatInput.placeholder = "Awaiting response..."
+                sendButton.disabled = true;
+                sendButton.classList.remove('bg-blue-600');
+                sendButton.classList.add('bg-gray-400');
 
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => console.error('Error:', error));
-    });
+                const messageWrapper = document.createElement('div');
+                messageWrapper.classList.add('chat-message', 'user', 'text-right', 'mb-2');
 
-    chatForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const message = chatInput.value.trim()
-        if (message) {
-            chatInput.disabled = true;
-            chatInput.placeholder = "Awaiting response..."
-            sendButton.disabled = true;
-            sendButton.classList.remove('bg-blue-600');
-            sendButton.classList.add('bg-gray-400');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('inline-block', 'bg-blue-500', 'text-white', 'p-2', 'rounded-lg');
+                messageElement.textContent = message;
 
-            const messageWrapper = document.createElement('div');
-            messageWrapper.classList.add('chat-message', 'user', 'text-right', 'mb-2');
+                messageWrapper.appendChild(messageElement);
+                chatHistory.appendChild(messageWrapper);
+                chatInput.value = '';
 
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('inline-block', 'bg-blue-500', 'text-white', 'p-2', 'rounded-lg');
-            messageElement.textContent = message;
-
-            messageWrapper.appendChild(messageElement);
-            chatHistory.appendChild(messageWrapper);
-            chatInput.value = '';
-
-            fetch('response', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                    'message': message
+                fetch('response', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'message': message
+                    })
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const response = data.response;
-                    const messageWrapper2 = document.createElement('div');
-                    messageWrapper2.classList.add('chat-message', 'ai', 'text-left', 'mb-2');
-                    messageWrapper2.style.maxWidth = '70%';
-                    messageWrapper2.style.padding = '0.5rem 1rem';
-                    messageWrapper2.style.borderRadius = '0.5rem';
-                    messageWrapper2.style.fontWeight = 'bold';
-                    messageWrapper2.style.backgroundColor = 'rgba(215,211,211,0.35)';
+                    .then(response => response.json())
+                    .then(data => {
+                        const response = data.response;
+                        const messageWrapper2 = document.createElement('div');
+                        messageWrapper2.classList.add('chat-message', 'ai', 'text-left', 'mb-2');
+                        messageWrapper2.style.maxWidth = '70%';
+                        messageWrapper2.style.padding = '0.5rem 1rem';
+                        messageWrapper2.style.borderRadius = '0.5rem';
+                        messageWrapper2.style.fontWeight = 'bold';
+                        messageWrapper2.style.backgroundColor = 'rgba(215,211,211,0.35)';
 
-                    const messageElement2 = document.createElement('div');
-                    messageElement2.classList.add('inline-block', 'bg-gray-300', 'p-2', 'rounded-lg');
-                    messageWrapper2.appendChild(messageElement2);
-                    chatHistory.appendChild(messageWrapper2);
+                        const messageElement2 = document.createElement('div');
+                        messageElement2.classList.add('inline-block', 'bg-gray-300', 'p-2', 'rounded-lg');
+                        messageWrapper2.appendChild(messageElement2);
+                        chatHistory.appendChild(messageWrapper2);
 
-                    let i = 0;
-                    function typeWriter() {
-                        if (i < response.length) {
-                            messageElement2.textContent += response.charAt(i);
-                            i++;
-                            setTimeout(typeWriter, 30);
-                        } else {
-                            chatInput.disabled = false;
-                            chatInput.placeholder = "Type your message here..."
-                            sendButton.disabled = false;
-                            sendButton.classList.remove('bg-gray-400');
-                            sendButton.classList.add('bg-blue-600');
-                            chatInput.focus();
+                        let i = 0;
+                        function typeWriter() {
+                            if (i < response.length) {
+                                messageElement2.textContent += response.charAt(i);
+                                i++;
+                                setTimeout(typeWriter, 30);
+                            } else {
+                                chatInput.disabled = false;
+                                chatInput.placeholder = "Type your message here..."
+                                sendButton.disabled = false;
+                                sendButton.classList.remove('bg-gray-400');
+                                sendButton.classList.add('bg-blue-600');
+                                chatInput.focus();
+                            }
                         }
-                    }
-                    typeWriter();
-                });
+                        typeWriter();
+                    });
 
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
-    });
-</script>
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+        });
+    </script>
 {% endblock %}
