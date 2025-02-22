@@ -1,5 +1,5 @@
 from typing import Dict, List 
-from chat import parse_response
+from chat.assistant import parse_response
 import ollama, re 
 
 ENNEAGRAM = ['Type 1: The Perfectionist', 'Type 2: The Giver', 'Type 3: The Achiever',

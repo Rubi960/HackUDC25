@@ -4,28 +4,27 @@
 {% block content %}
     <div class="h-100 d-flex align-items-center justify-content-center" style="margin-top: 5em">
         <!-- Botón inicial -->
-        
+
         <button id="startAnalysis" class="btn btn-secondary my-2 my-sm-0" onclick="showOptions()">Begin analysis</button>
-        
-            <!-- Formulario de opciones, inicialmente oculto -->
+
+        <!-- Formulario de opciones, inicialmente oculto -->
         <form id="analysisForm" action="{% url 'analyze' %}" method="post" style="display: none; margin-top: -5em;">
             {% csrf_token %}
             <fieldset>
                 <div>
-                    <label for="exampleSelect1" class="form-label mt-4">Select analysis</label>
-                    <select class="form-select" id="analysisOption">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <label for="analysisOption" class="form-label mt-4">Select analysis</label>
+                    <select class="form-select" id="analysisOption" name="analysisOption">
+                        <option value="" disabled selected>Select analysis</option>
+                        <option value="enneagram">Enneagram of Personality</option>
+                        <option value="bigfive">Big Five personality traits</option>
+                        <option value="mbti">Myers–Briggs Type Indicator (MBTI)</option>
                     </select>
                 </div>
                 <button type="submit" id="submitAnalysis" class="btn btn-primary" style="margin-top: 2em;">Run</button>
             </fieldset>
         </form>
 
-    <!-- Cuadro de diálogo para mostrar el resultado -->
+        <!-- Cuadro de diálogo para mostrar el resultado -->
         <div id="resultDialog" class="modal" style="display: none; margin-top: 5em;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -48,6 +47,7 @@
         function showOptions() {
             document.getElementById('startAnalysis').style.display = 'none';
             document.getElementById('analysisForm').style.display = 'block';
+            document.getElementById('analysisOption').value = "";
         }
 
         // Capturamos el envío del formulario de análisis
@@ -75,6 +75,7 @@
                     document.getElementById('analysisForm').style.display = 'none';
                     // Mostramos el cuadro de diálogo
                     document.getElementById('resultDialog').style.display = 'flex';
+
 
                     // Efecto typewriter para mostrar la respuesta
                     const resultElement = document.getElementById('analysisResult');

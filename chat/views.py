@@ -3,7 +3,7 @@ import random
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from .models import Chat, Session, History, User
+from .models import Chat, Session, History
 from .assistant import Assistant
 
 # Create your views here.
@@ -20,14 +20,7 @@ def index(request):
 def response(request):
     if request.method == 'POST':
         message = request.POST.get('message', '')
-        history = History.objects.get(user=request.user)
-        history.append({'message':message})
-        history.save()
-
-        h = History.objects.get(user=request.user)
-        print(h.history)
-
-        answer = "A" # assistant.answer(message)
+        answer = Assistant(request.user).answer(message)
         new_chat = Chat(message=message, response=answer)
         new_chat.save() 
         return JsonResponse({'response': answer})
@@ -35,7 +28,7 @@ def response(request):
 
 def terminate(request):
     if request.method == 'POST':
-        assistant: Assistant = request.POST.get('assistant', '')
+        assistant = Assistant(request.user)
         new_session = Session(summary=assistant.summary(), user=request.user)
         new_session.save()
         del assistant
