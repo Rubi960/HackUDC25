@@ -19,7 +19,7 @@ def login_view(request):
         logout(request=request)
         context={'error':'El usuario introducido no es correcto'}
         return render(request,'login/base.html', context)
-    return render(request,'login/404.html', {})
+    return render(request,'login/base.html', {})
 
 def register(request):
     form=RegisterForm()
