@@ -1,49 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>psAIchology</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-blue-50 h-screen flex">
-<!-- Contenedor principal -->
-<div class="flex flex-grow">
-    <!-- Área de chat -->
-    <div class="flex flex-col flex-grow p-4 w-3/4">
-        <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-            <h1 class="text-2xl">Chat AI</h1>
-            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded">{{ request.user.username }}</a>
-        </header>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+    <style>
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 60vh;
+            margin-top: -2em;
+        }
+        .chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(231, 231, 231, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .chat-message {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        .chat-message.ai {
+            justify-content: flex-start;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+            text-align: right;
+            background-color: #E83283;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .message {
+            max-width: 70%;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .message.ai {
+            background-color: #bfdbfe;
+            text-align: left;
+        }
+        .message.user {
+            background-color: #60a5fa;
+            text-align: right;
+            color: white;
+        }
+        .input-container {
+            display: flex;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+    
+    <div class="chat-container">
         <main class="flex flex-col flex-grow p-4">
-            <div id="chat-history" class="chat-history mb-4 bg-white p-4 rounded shadow overflow-y-auto max-height-[1vh] flex-grow">
+            <div id="chat-history" class="chat-history mb-4 p-4 rounded shadow">
                 <!-- Chat history will be dynamically inserted here -->
             </div>
-            <div class="input-container bg-gray-100 p-4 border-t flex">
+            <div class="table-secondary input-group mb-3">
                 <form method="POST" id="chat-form" class="flex w-full">
                     {% csrf_token %}
-                    <input id="chat-input" type="text" class="flex-grow p-2 border border-blue-300 rounded-l" placeholder="Type your message here...">
-                    <button type="submit" id="send-button" class="bg-blue-600 text-white p-2 rounded-r">Send</button>
+                    <input id="chat-input" type="text" class="form-control" placeholder="Type your message here...">
+                    <button class="btn btn-primary" type="submit" id="send-button">Send</button>
                 </form>
             </div>
         </main>
     </div>
-
-    <!-- Menú lateral derecho -->
-    <aside class="w-1/4 bg-gray-200 p-4 flex flex-col justify-between">
-        <nav>
-            <ul class="space-y-2">
-                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 1</a></li>
-                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 2</a></li>
-                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 3</a></li>
-            </ul>
-        </nav>
-        <div class="text-center mt-4">
-            <a href="/logout" class="text-red-500">Cerrar sesión</a>
-        </div>
-    </aside>
-</div>
-
 
 <script>
     const chatForm = document.getElementById('chat-form');
@@ -85,6 +109,11 @@
                     const response = data.response;
                     const messageWrapper2 = document.createElement('div');
                     messageWrapper2.classList.add('chat-message', 'ai', 'text-left', 'mb-2');
+                    messageWrapper2.style.maxWidth = '70%';
+                    messageWrapper2.style.padding = '0.5rem 1rem';
+                    messageWrapper2.style.borderRadius = '0.5rem';
+                    messageWrapper2.style.fontWeight = 'bold';
+                    messageWrapper2.style.backgroundColor = 'rgba(215,211,211,0.35)';
 
                     const messageElement2 = document.createElement('div');
                     messageElement2.classList.add('inline-block', 'bg-gray-300', 'p-2', 'rounded-lg');
@@ -113,5 +142,4 @@
         }
     });
 </script>
-</body>
-</html>
+{% endblock %}

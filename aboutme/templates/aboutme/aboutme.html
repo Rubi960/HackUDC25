@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Analysis{% endblock %}
+{% block content %}
+    <div class="h-100 d-flex align-items-center justify-content-center" style="margin-top: 5em">
+        <!-- Botón inicial -->
+        
+        <button id="startAnalysis" class="btn btn-secondary my-2 my-sm-0" onclick="showOptions()">Begin analysis</button>
+        
+            <!-- Formulario de opciones, inicialmente oculto -->
+        <form id="analysisForm" action="{% url 'analyze' %}" method="post" style="display: none; margin-top: -5em;">
+            {% csrf_token %}
+            <fieldset>
+                <div>
+                    <label for="exampleSelect1" class="form-label mt-4">Select analysis</label>
+                    <select class="form-select" id="analysisOption">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <button type="submit" id="submitAnalysis" class="btn btn-primary" style="margin-top: 2em;">Run</button>
+            </fieldset>
+        </form>
+
+    <!-- Cuadro de diálogo para mostrar el resultado -->
+        <div id="resultDialog" class="modal" style="display: none; margin-top: 5em;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Analysis</h5>
+                    </div>
+                    <div id="analysisResult" class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button id="newAnalysis" type="button" class="btn btn-secondary text-nowrap" style="margin-left:20em;" onclick="resetAnalysis()">
+                            Run another analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Muestra el formulario de opciones y oculta el botón inicial
+        function showOptions() {
+            document.getElementById('startAnalysis').style.display = 'none';
+            document.getElementById('analysisForm').style.display = 'block';
+        }
+
+        // Capturamos el envío del formulario de análisis
+        document.getElementById('analysisForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const option = document.getElementById('analysisOption').value;
+            const submitBtn = document.getElementById('submitAnalysis');
+            // Deshabilitamos el botón para evitar envíos múltiples
+            submitBtn.disabled = true;
+
+            // Realizamos la petición a la vista 'analizar'
+            fetch("{% url 'analyze' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'csrfmiddlewaretoken': csrfToken,
+                    'option': option
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Ocultamos el formulario de opciones
+                    document.getElementById('analysisForm').style.display = 'none';
+                    // Mostramos el cuadro de diálogo
+                    document.getElementById('resultDialog').style.display = 'flex';
+
+                    // Efecto typewriter para mostrar la respuesta
+                    const resultElement = document.getElementById('analysisResult');
+                    resultElement.textContent = ""; // Reiniciamos el contenido
+                    let i = 0;
+                    const resultText = data.result;
+                    function typeWriter() {
+                        if (i < resultText.length) {
+                            resultElement.textContent += resultText.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, 30);
+                        } else {
+                            // Rehabilitamos el botón en caso de ser necesario en futuros análisis
+                            submitBtn.disabled = false;
+                        }
+                    }
+                    typeWriter();
+                });
+        });
+
+        // Función para volver a mostrar las opciones después de ver el resultado
+        function resetAnalysis() {
+            // Ocultamos el cuadro de diálogo
+            document.getElementById('resultDialog').style.display = 'none';
+            // Limpiamos el contenido del resultado
+            document.getElementById('analysisResult').textContent = "";
+            // Volvemos a mostrar el formulario de opciones
+            document.getElementById('analysisForm').style.display = 'block';
+        }
+    </script>
+{% endblock %}
