@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if chat %}active{% endif %}" href="/chat"><strong>Iniciar conversación</strong></a>
+                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if chat %}active{% endif %}" href="/chat"><strong>Begin conversation</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if perfil %}active{% endif %}" href="/aboutme"><strong>Sobre mí</strong></a>
+                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if perfil %}active{% endif %}" href="/aboutme"><strong>About me</strong></a>
                     </li>
                 </ul>
             </div>
@@ -40,15 +40,15 @@
             <div class="dropdown">
                 <a class="navbar-brand" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><u>{{user.username}}</u></a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
+                        <a class="dropdown-item" href="/logout">Sign out</a>
                     </div>
                 </div>
             <div class="circle">
                 <p>{{ iniciales }}</p>
             </div>
         {% else %}
-            <a class="btn btn-primary" href="{% url 'login' %}">Inicia Sesión</a>
-            <a class="btn btn-secondary" href="{% url 'register' %}">Registrate!</a>
+            <a class="btn btn-primary" href="{% url 'login' %}">Sign in</a>
+            <a class="btn btn-secondary" href="{% url 'register' %}">Sign up</a>
         {% endif %}
 
 

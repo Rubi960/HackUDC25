@@ -5,7 +5,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>{% block title %}Registrate{% endblock %}</title>
+    <title>{% block title %}Sign up{% endblock %}</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -17,26 +17,26 @@
 <body>
     <div class="login-container">
         <form method="POST" class="login-form centered" action="">
-            <h1 id="iniciaSesion"><u>Únete a nosotros!</u></h1>
+            <h1 id="iniciaSesion"><u>Join us!</u></h1>
 
             <div>
-                <p id="">Los campos marcados con * son <u>obligatorios</u>.</p>
+                <p id="">Fields marked with * are <u>required</u>.</p>
             </div>
             
             {%csrf_token%}
             <label class="form-label mt-4" for="email">Email(*)</label>
             {{form.email}}
 
-            <label class="form-label mt-4" for="username">Usuario(*)</label>
+            <label class="form-label mt-4" for="username">Username(*)</label>
             {{form.username}}
 
-            <label class="form-label mt-4" for="username">Nombre (*)</label>
+            <label class="form-label mt-4" for="username">First name(*)</label>
             {{form.first_name}}
 
-            <label class="form-label mt-4" for="password">Contraseña(*)</label>
+            <label class="form-label mt-4" for="password">Password(*)</label>
             {{form.password1}}
 
-            <label class="form-label mt-4" for="password2">Reintroduce la contraseña(*)</label>
+            <label class="form-label mt-4" for="password2">Repeat password(*)</label>
             {{form.password2}}
 
         
@@ -54,9 +54,9 @@
                     
             
 
-            <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" data-bs-dismiss="alert" type="submit" name="Create User" value="REGISTRATE">
+            <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" data-bs-dismiss="alert" type="submit" name="Create User" value="SIGN UP">
             <div style="margin-top:1em">
-                <p>¿Ya estás registrado? <a href="/">Inicia Sesión</a></p>
+                <p>Already a user? <a href="/">Sign in</a></p>
             </div>  
 
         </form>
