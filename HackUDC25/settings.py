@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'docs.apps.DocsConfig',
     'Login.apps.LoginConfig',
     'settings.apps.SettingsConfig',
+    'admintab.apps.AdmintabConfig',
 ]
 
 MIDDLEWARE = [
