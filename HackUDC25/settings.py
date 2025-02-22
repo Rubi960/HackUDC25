@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'docs.apps.DocsConfig',
     'Login.apps.LoginConfig',
     'settings.apps.SettingsConfig',
+    'chat.apps.ChatConfig',
+    'aboutme.apps.AboutmeConfig',
     'admintab.apps.AdmintabConfig',
 ]
 

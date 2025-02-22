@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+    <style>
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 60vh;
+            margin-top: -2em;
+        }
+        .chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(231, 231, 231, 0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .chat-message {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        .chat-message.ai {
+            justify-content: flex-start;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+            text-align: right;
+            background-color: #E83283;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .message {
+            max-width: 70%;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .message.ai {
+            background-color: #bfdbfe;
+            text-align: left;
+        }
+        .message.user {
+            background-color: #60a5fa;
+            text-align: right;
+            color: white;
+        }
+        .input-container {
+            display: flex;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+    
+    <div class="chat-container">
+        <main class="flex flex-col flex-grow p-4">
+            <div id="chat-history" class="chat-history mb-4 p-4 rounded shadow">
+                <!-- Chat history will be dynamically inserted here -->
+            </div>
+            <div class="table-secondary input-group mb-3">
+                <form method="POST" id="chat-form" class="flex w-full">
+                    {% csrf_token %}
+                    <input id="chat-input" type="text" class="form-control" placeholder="Type your message here...">
+                    <button class="btn btn-primary" type="submit" id="send-button">Send</button>
+                </form>
+            </div>
+            <div>
+                <form method="POST" id="terminate-session">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-link" id="terminate-button">Terminate session</button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+<script>
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatHistory = document.getElementById('chat-history');
+    const terminateButton = document.getElementById('terminate-button');
+
+    terminateButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch("{% url 'terminate' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: new URLSearchParams({
+                'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'message': message,
+                'assistant': self.assistant
+            })
+
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    chatForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = chatInput.value.trim()
+        if (message) {
+            chatInput.disabled = true;
+            chatInput.placeholder = "Awaiting response..."
+            sendButton.disabled = true;
+            sendButton.classList.remove('bg-blue-600');
+            sendButton.classList.add('bg-gray-400');
+
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('chat-message', 'user', 'text-right', 'mb-2');
+
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('inline-block', 'bg-blue-500', 'text-white', 'p-2', 'rounded-lg');
+            messageElement.textContent = message;
+
+            messageWrapper.appendChild(messageElement);
+            chatHistory.appendChild(messageWrapper);
+            chatInput.value = '';
+
+            fetch('response', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'message': message
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const response = data.response;
+                    const messageWrapper2 = document.createElement('div');
+                    messageWrapper2.classList.add('chat-message', 'ai', 'text-left', 'mb-2');
+                    messageWrapper2.style.maxWidth = '70%';
+                    messageWrapper2.style.padding = '0.5rem 1rem';
+                    messageWrapper2.style.borderRadius = '0.5rem';
+                    messageWrapper2.style.fontWeight = 'bold';
+                    messageWrapper2.style.backgroundColor = 'rgba(215,211,211,0.35)';
+
+                    const messageElement2 = document.createElement('div');
+                    messageElement2.classList.add('inline-block', 'bg-gray-300', 'p-2', 'rounded-lg');
+                    messageWrapper2.appendChild(messageElement2);
+                    chatHistory.appendChild(messageWrapper2);
+
+                    let i = 0;
+                    function typeWriter() {
+                        if (i < response.length) {
+                            messageElement2.textContent += response.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, 30);
+                        } else {
+                            chatInput.disabled = false;
+                            chatInput.placeholder = "Type your message here..."
+                            sendButton.disabled = false;
+                            sendButton.classList.remove('bg-gray-400');
+                            sendButton.classList.add('bg-blue-600');
+                            chatInput.focus();
+                        }
+                    }
+                    typeWriter();
+                });
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    });
+</script>
+{% endblock %}
