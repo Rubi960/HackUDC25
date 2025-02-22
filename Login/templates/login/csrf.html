@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+{% load static %}
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -9,18 +9,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.min_quartz.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}" >
 </head>
 
 <body>
 
-    <div id="caja">
-        <h1>UY, Algo salió terriblemente mal</h1>
-
-        <p align="center"><a id="boton" href="/logout/">Prueba de nuevo!</a></p>
+    <div class="login-container">
+        <div class="login-form centered">
+            <h2>UY, Algo salió terriblemente mal</h2>
+            <p align="center">
+                <a class="btn btn-primary" href="/logout/">Prueba de nuevo!</a>
+            </p>
+        </div>
     </div>
-
-  
-
 
 </body>
 

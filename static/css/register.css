@@ -1,0 +1,73 @@
+:root {
+    font-size: 18px;
+}
+
+label {
+    font-size: 22px
+}
+
+.input-centrado {       
+    max-width: 400px;
+    display: block;
+    margin: 0.2em auto;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.space {
+    margin-right:0.5em;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    margin-bottom: 1%;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 15px;
+}
+
+
+.login-form {
+    background: rgba(0, 0, 0, 0.3); 
+    padding: 20px; 
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 10px; 
+    color: white; 
+    width: 40em; 
+    max-height: 80vh; 
+    overflow-y: auto; 
+    text-align: center;
+}
+
+
+.login-form h2 {
+    margin-bottom: 15px;
+}
+
+.submit-btn {
+    margin-top: 15px;
+}
+
+
+.register-link {
+    margin-top: 10px;
+}
+
+.login-form ul {
+    align-self: flex-start; 
+    text-align: left;
+    padding-left: 20px;
+    margin-left: 0;
+}
