@@ -12,7 +12,7 @@ def index(request):
         user=request.user,
         defaults={'first_name': request.user.first_name, 'history': ''}
     )
-    history.set_history_list([])
+    history.history = []
     history.save()
     return render(request, 'chat/chat.html', context={'history':history})
 
@@ -21,11 +21,13 @@ def response(request):
     if request.method == 'POST':
         message = request.POST.get('message', '')
         history = History.objects.get(user=request.user)
-        history.get_history_list()
-        history.append(message)
+        history.append({'message':message})
         history.save()
 
-        answer = assistant.answer(message)
+        h = History.objects.get(user=request.user)
+        print(h.history)
+
+        answer = "A" # assistant.answer(message)
         new_chat = Chat(message=message, response=answer)
         new_chat.save() 
         return JsonResponse({'response': answer})
