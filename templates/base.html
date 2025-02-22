@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% if stats %}active{% endif %}" href="/stats">STATISTICS</a>
+                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if chat %}active{% endif %}" href="/chat"><strong>Iniciar conversación</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if upload %}active{% endif %}" href="/upload">UPLOAD</a>
+                        <a style="font-size:22px; padding-left:1.5em" class="nav-link {% if perfil %}active{% endif %}" href="/aboutme"><strong>Sobre mi</strong></a>
                     </li>
                 </ul>
             </div>
@@ -58,6 +58,6 @@
 
     {% block content %}
     {% endblock %}
-
+    {% include 'chat.html' %}
 </body>
 </hmtl>

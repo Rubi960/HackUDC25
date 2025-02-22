@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="es">
 <head>
 
@@ -8,21 +9,36 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.min_quartz.css' %}">
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}" >
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" >
 
 </head>
 <body>
-  <form method="post" action="{% url 'login' %}" id="inicioSesion" class="centered">
-    {% csrf_token %}
-    <h2 id="iniciaSesion">Inicia Sesión</h2>
-    <input type="text" placeholder="Email" name="email">
-    <input type="password" placeholder="Contraseña" name="passwd">
-    <div>
-      <p id="cuenta">¿No tienes cuenta?</p>
-      <a href="/register/">¡Registrate!</a>
-      <input type="submit" value="ENTRA">    
-    </div>     
-    <p id="errorfallido">{{ error }}</p>   
-  </form>
+  <div style="text-align:center;">
+    <div class="login-container">
+      <form style="margin:auto;" method="post" action="{% url 'login' %}" id="inicioSesion" class="login-form centered">
+        {% csrf_token %}
+        <h2 id="iniciaSesion"><u>Inicia Sesión</u></h2>
+        <div>
+          <label for="exampleInputEmail1" class="form-label mt-4">Email</label>
+          <input style="height:3em" type="text" class="input-centrado form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">
+          <label for="exampleInputPassword1" class="form-label mt-4">Contraseña</label>
+          <input style="height:3em" type="password" class="input-centrado form-control" id="exampleInputPassword1" autocomplete="off" placeholder="Contraseña" name="passwd">
+        </div>
+        <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" type="submit" value="ENTRA">  
+        {% if error %}
+          <div class="alert alert-dismissible alert-primary">
+            {{ error }}
+          </div>
+        {% endif %}
+        <div style="margin-top:1em">
+          <p>¿No tienes cuenta? <a href="/register/">¡Registrate!</a></p>
+        </div>     
+
+      </form>
+    </div>
+  </div>
         
 </body>
 </html>

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Login.apps.LoginConfig',
     'settings.apps.SettingsConfig',
     'chat.apps.ChatConfig',
+    'admintab.apps.AdmintabConfig',
 ]
 
 MIDDLEWARE = [

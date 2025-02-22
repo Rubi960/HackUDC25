@@ -4,23 +4,25 @@ from django.apps import apps
 from django.conf import settings
 
 def get_project_docs():
-    """Recopila los docstrings de cada archivo Python en las apps del proyecto, ignorando funciones importadas."""
+    """
+    Gets DocStrings from all apps in the project.
+
+    Input: None
+    Output: Dictionary
+    """
     project_docs = {}
 
-    # Directorio base del proyecto
     base_dir = settings.BASE_DIR
 
     for app_config in apps.get_app_configs():
         app_name = app_config.name
 
-        # Excluir aplicaciones de Django y paquetes de terceros
         if app_name.startswith("django.") or "site-packages" in app_config.path:
             continue
 
         app_docs = {}
-        app_path = app_config.path  # Ruta de la app
+        app_path = app_config.path
 
-        # Recorrer archivos .py dentro de la aplicación
         for root, _, files in os.walk(app_path):
             for file in files:
                 if file.endswith(".py") and file not in ["__init__.py", "apps.py", "tests.py", "migrations"]:
@@ -30,7 +32,6 @@ def get_project_docs():
                     with open(file_path, "r", encoding="utf-8") as f:
                         source = f.read()
 
-                    # Analizar el código fuente para extraer docstrings
                     module_docs = extract_docstrings(source)
 
                     if module_docs:
@@ -42,16 +43,38 @@ def get_project_docs():
     return project_docs
 
 def extract_docstrings(source_code):
-    """Extrae docstrings de clases y funciones en un archivo fuente, ignorando las importadas."""
+    """
+    Extracts DocStrings from functions and classes in a Python source code file, ignoring imported modules.
+
+    Input: String
+    Output: Dictionary
+    """
     tree = ast.parse(source_code)
     docs = {}
 
     for node in tree.body:
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)):  # Solo funciones y clases
             docstring = ast.get_docstring(node) or "No documentation available"
-            docs[node.name] = docstring  # Guardamos nombre y docstring
+            definition, description = split_docstring(docstring)
+            docs[node.name] = {"type": "function", "definition": definition, "description": description}
 
     return docs
+
+def split_docstring(docstring):
+    """
+    Splits a DocString into its definition and description.
+
+    Input: String
+    Output: Tuple
+    """
+    if not docstring or not isinstance(docstring, str):
+        return "No definition available", "No additional details provided."
+
+    lines = docstring.strip().split("\n", 1)  # Dividimos en dos partes
+    description = lines[0].strip() if lines[0].strip() else "No definition available"
+    definition = lines[1].strip() if len(lines) > 1 and lines[1].strip() else "No additional details provided."
+
+    return definition, description
 
 
 

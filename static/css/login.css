@@ -1,0 +1,63 @@
+:root {
+    font-size: 18px;
+}
+
+label {
+    font-size: 22px
+}
+
+.input-centrado {       
+    max-width: 400px;
+    display: block;
+    margin: 0.2em auto;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    margin-bottom: 1%;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+
+.login-form {
+    background: rgba(0, 0, 0, 0.3); 
+    padding: 20px; 
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 10px; 
+    color: white; 
+    width: 35em; 
+    max-height: 80vh; 
+    overflow-y: auto; 
+    text-align: center;
+}
+
+
+.login-form h2 {
+    margin-bottom: 15px;
+}
+
+.submit-btn {
+    margin-top: 25px;
+}
+
+
+.register-link {
+    margin-top: 10px;
+}
