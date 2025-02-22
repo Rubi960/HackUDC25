@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>psAIchology</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-blue-50 h-screen flex">
+<!-- Contenedor principal -->
+<div class="flex flex-grow">
+    <!-- Área de chat -->
+    <div class="flex flex-col flex-grow p-4 w-3/4">
+        <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+            <h1 class="text-2xl">Chat AI</h1>
+            <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded">{{ request.user.username }}</a>
+        </header>
+        <main class="flex flex-col flex-grow p-4">
+            <div id="chat-history" class="chat-history mb-4 bg-white p-4 rounded shadow overflow-y-auto max-height-[1vh] flex-grow">
+                <!-- Chat history will be dynamically inserted here -->
+            </div>
+            <div class="input-container bg-gray-100 p-4 border-t flex">
+                <form method="POST" id="chat-form" class="flex w-full">
+                    {% csrf_token %}
+                    <input id="chat-input" type="text" class="flex-grow p-2 border border-blue-300 rounded-l" placeholder="Type your message here...">
+                    <button type="submit" id="send-button" class="bg-blue-600 text-white p-2 rounded-r">Send</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Menú lateral derecho -->
+    <aside class="w-1/4 bg-gray-200 p-4 flex flex-col justify-between">
+        <nav>
+            <ul class="space-y-2">
+                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 1</a></li>
+                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 2</a></li>
+                <li><a href="#" class="block p-2 bg-gray-300 rounded">Opción 3</a></li>
+            </ul>
+        </nav>
+        <div class="text-center mt-4">
+            <a href="/logout" class="text-red-500">Cerrar sesión</a>
+        </div>
+    </aside>
+</div>
+
+
+<script>
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatHistory = document.getElementById('chat-history');
+
+    chatForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = chatInput.value.trim()
+        if (message) {
+            chatInput.disabled = true;
+            chatInput.placeholder = "Awaiting response..."
+            sendButton.disabled = true;
+            sendButton.classList.remove('bg-blue-600');
+            sendButton.classList.add('bg-gray-400');
+
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('chat-message', 'user', 'text-right', 'mb-2');
+
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('inline-block', 'bg-blue-500', 'text-white', 'p-2', 'rounded-lg');
+            messageElement.textContent = message;
+
+            messageWrapper.appendChild(messageElement);
+            chatHistory.appendChild(messageWrapper);
+            chatInput.value = '';
+
+            fetch('response', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'message': message
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const response = data.response;
+                    const messageWrapper2 = document.createElement('div');
+                    messageWrapper2.classList.add('chat-message', 'ai', 'text-left', 'mb-2');
+
+                    const messageElement2 = document.createElement('div');
+                    messageElement2.classList.add('inline-block', 'bg-gray-300', 'p-2', 'rounded-lg');
+                    messageWrapper2.appendChild(messageElement2);
+                    chatHistory.appendChild(messageWrapper2);
+
+                    let i = 0;
+                    function typeWriter() {
+                        if (i < response.length) {
+                            messageElement2.textContent += response.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, 30);
+                        } else {
+                            chatInput.disabled = false;
+                            chatInput.placeholder = "Type your message here..."
+                            sendButton.disabled = false;
+                            sendButton.classList.remove('bg-gray-400');
+                            sendButton.classList.add('bg-blue-600');
+                            chatInput.focus();
+                        }
+                    }
+                    typeWriter();
+                });
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    });
+</script>
+</body>
+</html>
