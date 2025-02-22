@@ -8,5 +8,5 @@ class DocumentationView(View):
 
     def get(self, request, *args, **kwargs):
         docs = get_project_docs()
-        return JsonResponse(docs, json_dumps_params={'indent': 4}, safe=False)
+        return render(request, "docs/docs.html", {"docs": docs})
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proyecto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; background-color: #f4f4f4; }
+        h1 { text-align: center; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .tree { margin-bottom: 40px; padding: 20px; background: #eaeaea; border-radius: 8px; }
+        .app { margin-bottom: 10px; font-weight: bold; }
+        .module { margin-left: 20px; font-weight: bold; }
+        .function { margin-left: 40px; }
+        .function a { text-decoration: none; color: #007BFF; }
+        .function a:hover { text-decoration: underline; }
+        .doc-section { margin-top: 30px; padding: 10px; background: #f9f9f9; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Documentación del Proyecto</h1>
+
+        <!-- 🔥 ÁRBOL DE NAVEGACIÓN -->
+        <div class="tree">
+            <h2>📂 Índice</h2>
+            {% for app, modules in docs.items %}
+                <div class="app">📦 {{ app }}</div>
+                {% for module, elements in modules.items %}
+                    <div class="module">📜 {{ module }}</div>
+                    {% for name, doc in elements.items %}
+                        <div class="function">
+                            🔹 <a href="#doc_{{ name }}">{{ name }}</a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <!-- 🔥 DOCUMENTACIÓN DETALLADA -->
+        {% for app, modules in docs.items %}
+            <div class="app">
+                <h2>📦 {{ app }}</h2>
+                {% for module, elements in modules.items %}
+                    <div class="module">📜 {{ module }}</div>
+                    {% for name, doc in elements.items %}
+                        <div class="doc-section" id="doc_{{ name }}">
+                            <h3>{{ name }}</h3>
+                            <p>{{ doc }}</p>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+
