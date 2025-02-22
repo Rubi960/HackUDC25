@@ -49,6 +49,7 @@ def register(request):
     return render(request, 'login/register.html', context)
 
 def logout_view(request):
+    return render(request, 'login/prueba.html', {'iniciales':'RU'})
     logout(request)
     return redirect('/')
 
