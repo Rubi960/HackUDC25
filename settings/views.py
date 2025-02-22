@@ -7,7 +7,7 @@ from .forms import UserUpdateForm
 
 # Create your views here.
 @login_required(login_url="/", redirect_field_name=None)
-def settings(request):
+def settings(request):   
     if request.method == "POST":
         user_update_form = UserUpdateForm(request.POST)
         password_form = PasswordChangeForm(request.user, request.POST)

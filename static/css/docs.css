@@ -20,16 +20,17 @@ h1 {
 .tree {
     margin-bottom: 40px;
     padding: 20px;
-    background: #0d0a1d;
+    background: #191436;
     border-radius: 8px;
 }
 
-.app {
+.appI {
     margin-bottom: 10px;
     font-weight: bold;
+    font-size: large;
 }
 
-.module {
+.moduleI {
     margin-left: 20px;
     font-weight: bold;
 }
@@ -47,9 +48,48 @@ h1 {
     text-decoration: underline;
 }
 
+.app {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: medium;
+    color: #ee831f;
+}
+
+.module {
+    color: #ffffff;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: larger;
+}
+
 .doc-section {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 10px;
-    background: #0d0a1d;
+    color: #ffffff;
+    background: #191436;
     border-radius: 5px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.doc-name {
+    color: #ee831f;
+    font-size: larger;
+    padding-bottom: 10px;
+}
+
+.definition-box {
+    background-color: black;
+    color: white;
+    border: 2px solid white;
+    padding: 10px;
+    padding-top: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-family: monospace; 
+    white-space: pre-line; 
+    display: inline-block;
+    align-self: center;
+    max-width: 100%;
 }
