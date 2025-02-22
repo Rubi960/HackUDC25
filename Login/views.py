@@ -14,7 +14,8 @@ def login_view(request):
         user = authenticate(username=email, password=passwd)
         if user is not None:
             login(request, user)
-            print('Exito!')
+            context = {}
+            return render(request, 'login/base.html', context) # TODO -> Temporal
         logout(request=request)
         context={'error':'El usuario introducido no es correcto'}
         return render(request,'login/base.html', context)
@@ -36,7 +37,9 @@ def register(request):
                 form.save()
                 user = authenticate(username=username, password=password)
                 if user is not None:
+                    context = {}
                     login(request, user)
+                    return render(request, 'login/base.html', context) # TODO -> Temporal
                 else:
                     return redirect('/register')
             else:
@@ -49,5 +52,5 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
-def csrf_failure():
-    pass
+def csrf_failure(request, reason=""):
+    return render(request, 'login/csrf.html', {})
