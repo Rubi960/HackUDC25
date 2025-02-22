@@ -55,6 +55,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-cache'
+    }
+}
+
+
 ROOT_URLCONF = 'HackUDC25.urls'
 
 TEMPLATES = [

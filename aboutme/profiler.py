@@ -51,5 +51,5 @@ class Profiler:
     def get_answer(self, history: List[Dict[str, str]]) -> str:
         response = parse_response(ollama.chat(model=self.pretrained, messages=history).message.content)
         history.append({'role': 'assistant', 'content': response})
-        return response 
+        return response
     

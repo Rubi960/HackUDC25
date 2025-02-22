@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 <head>
 
   <title>Configuración</title>
@@ -8,32 +9,55 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+  <link rel="stylesheet" type='text/css' media='screen' href="{% static 'css/bootstrap.min_quartz.css' %}">
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}" >
+  <link rel="stylesheet" type="text/css" href="{% static 'css/settings.css' %}" >
 </head>
 <body>
 
+
+
     {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
+        <div class="alert alert-dismissible alert-primary">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
+  
+  
+    
 
-    <div>
-        <h2>Ajustes y Configuración</h2>
+    <div class="settings-container">
+        <div class="settings-wrapper">
+            <h2>Ajustes y Configuración</h2>
+            <form style="margin-bottom:1em" class="settings-form centered" method="post">
+                {% csrf_token %}
+                <label class="form-label mt-4" for="username">Usuario</label>
+                {{user_update_form.first_name}}
+                
+                <label class="form-label mt-4" for="email">Email</label>
+                {{user_update_form.email}}
 
-        <form method="post">
-            {% csrf_token %}
-            {{ user_update_form.as_p }}
-            <button type="submit" name="update_profile">Actualizar Perfil</button>
-        </form>
+                <button class="btn btn-primary" type="submit" name="update_profile">Actualizar Perfil</button>
+            </form>
+            
+            <form autocomplete="off" class="settings-form centered" method="post">
+                {% csrf_token %}
+                <label class="form-label mt-4" for="{{ field.id_for_label }}">Old password</label>
+                {{password_form.old_password}}
 
-        <form method="post">
-            {% csrf_token %}
-            {{ password_form.as_p }}
-            <button type="submit" name="update_password">Cambiar Contraseña</button>
-        </form>
+                <label class="form-label mt-4" for="{{ field.id_for_label }}">New password</label>
+                {{password_form.new_password1}}
+
+                <label class="form-label mt-4" for="{{ field.id_for_label }}">Password confirmation</label>
+                {{password_form.new_password2}}
+                
+                <button class="btn btn-primary" type="submit" name="update_password">Cambiar Contraseña</button>
+            </form>
+        </div>
 
     </div>
 

@@ -3,23 +3,31 @@ import random
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from .models import Chat, Session
+from .models import Chat, Session, History, User
 from .assistant import Assistant
-
 
 # Create your views here.
 def index(request):
-    assistant = Assistant(request.user)
-    return render(request, 'chat/chat.html', context=dict(assistant=assistant))
+    history, created = History.objects.get_or_create(
+        user=request.user,
+        defaults={'first_name': request.user.first_name, 'history': ''}
+    )
+    history.set_history_list([])
+    history.save()
+    return render(request, 'chat/chat.html', context={'history':history})
 
 
 def response(request):
     if request.method == 'POST':
         message = request.POST.get('message', '')
-        assistant: Assistant = request.POST.get('assistant', '')
+        history = History.objects.get(user=request.user)
+        history.get_history_list()
+        history.append(message)
+        history.save()
+
         answer = assistant.answer(message)
         new_chat = Chat(message=message, response=answer)
-        new_chat.save()
+        new_chat.save() 
         return JsonResponse({'response': answer})
     return JsonResponse({'response': 'Invalid request'}, status=400)
 
