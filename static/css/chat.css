@@ -47,14 +47,14 @@
 
   .chat-input input {
     flex: 1;
-    padding: 5px;
+    padding: 3px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
 
   .chat-input button {
-    margin-left: 10px;
-    padding: 5px 10px;
+    margin-left: 5px;
+    padding: 5px 5px;
     background-color: #007bff;
     color: white;
     border: none;

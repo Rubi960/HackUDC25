@@ -3,6 +3,24 @@
 {% block title %}Admin Tab{% endblock %}
 {% block content %}
 
-Esto es una prueba
+<h1>Imágenes SVG en Base64</h1>
+
+  <!-- Primera imagen SVG -->
+  <div>
+    <h2>Imagen 1</h2>
+    <img src="data:image/svg+xml;base64,{{ imagen1_base64 }}" alt="Imagen 1">
+  </div>
+
+  <!-- Segunda imagen SVG -->
+  <div>
+    <h2>Imagen 2</h2>
+    <img src="data:image/svg+xml;base64,{{ imagen2_base64 }}" alt="Imagen 2">
+  </div>
+
+  <!-- Tercera imagen SVG -->
+  <div>
+    <h2>Imagen 3</h2>
+    <img src="data:image/svg+xml;base64,{{ imagen3_base64 }}" alt="Imagen 3">
+  </div>
 
 {% endblock %}
