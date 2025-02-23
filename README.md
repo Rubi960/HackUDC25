@@ -1,6 +1,6 @@
 # HackUDC25
 
-## :scroll: [Licencia](LICENSE)
+## :scroll: [License](LICENSE)
 
 This project is licensed under the MIT License.  
 
