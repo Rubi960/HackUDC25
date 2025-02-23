@@ -7,7 +7,7 @@ from .models import History, User
 
 def parse_response(response: str) -> str:
     response = re.sub(r"<think>.*?</think>", "", response, flags=re.DOTALL).strip() 
-    return response
+    return re.sub(r"\*\*(.*?)\*\*|__(.*?)__", lambda m: m.group(1) or m.group(2), response)
     
 class Assistant:
     def __init__(self, user: User, conver: str = 'deepseek-r1:32b', memory: str = 'deepseek-r1:32b'):
@@ -29,23 +29,37 @@ class Assistant:
             
     @property
     def user_memory(self) -> List[str]:
+        """Gets the list of previous summaries for the input user."""
         if 'session_set' not in self.user.__dict__.keys():
             return []
         return list(self.user.session_set.all())
     
     def add_history(self, new: Dict[str, str]):
+        """Adds a new message to the history of the session.
+
+        Args:
+            new (Dict[str, str]): New message, with its role and content.
+        """
         h = History.objects.get(user=self.user)
         h.append(new)
         h.save()
         
     @property
     def history(self) -> List[Dict[str, str]]:
+        """Returns the list of messages of the current session."""
         return History.objects.get(user=self.user).history    
+    
     @property
     def info(self) -> List[Dict[str, str]]:
+        """Returns only the messages of the user from the current session."""
         return [m for m in self.history if m['role'] == 'user']
     
     def remove_history(self, index: int):
+        """Removes a certain element from the history.
+
+        Args:
+            index (int): Element to remove from the history.
+        """
         h = History.objects.get(user=self.user)
         h.history.pop(index)
         h.save()
@@ -96,6 +110,7 @@ class Assistant:
         response = parse_response(ollama.chat(model=self.conver, messages=self.history, options={'temperature': 0.1, 'top_k': 10, 'mirostat_eta': 0.5}).message.content)
         self.remove_history(-1) # remove the system prompt
         self.add_history({'role': 'assistant', 'content': response})
+        print(response)
         return response 
 
     def summary(self) -> str:

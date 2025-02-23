@@ -1,6 +1,8 @@
 from typing import Dict, List 
 from chat.assistant import parse_response
 import ollama, re 
+from chat.models import User
+
 
 ENNEAGRAM = ['Type 1: The Perfectionist', 'Type 2: The Giver', 'Type 3: The Achiever',
              'Type 4: The Individualist', 'Type 5: The Investigator', 'Type 6: The Skeptic',
@@ -13,17 +15,32 @@ MBTI = ['ISTJ: The Inspector', 'ISTP: The Crafter', 'ISFJ: The Protector', 'ISFP
 BIGFIVE = ['Openness' 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism']
 
 class Profiler:
-    def __init__(self, user, pretrained: str = 'deepseek-r1:7b'):
+    def __init__(self, user: User, pretrained: str = 'deepseek-r1:32b'):
+        """Initializes the profiler.
+
+        Args:
+            user (User): Input user.
+            pretrained (str): Profiler model to analyze the user's  personality. Defaults to 'deepseek-r1:32b'.
+        """
         self.user = user 
         self.pretrained = pretrained 
         
     @property
     def user_memory(self) -> List[str]:
+        """Gets the list of previous summaries for the input user."""
         if 'session_set' not in self.user.__dict__.keys():
             return []
         return list(self.user.session_set.all())
         
     def analysis(self, model: str) -> str:
+        """Performs a personality analysis given an specific model.
+
+        Args:
+            model (str): Personality model (e.g. MBTI).
+
+        Returns:
+            str: Personality analysis.
+        """
         history = [
             {'role': 'system', 'content': f'You are a personality profiler based on the {model} test. '},
             {'role': 'system', 'content': 
@@ -33,8 +50,23 @@ class Profiler:
         return self.get_answer(history)
     
     def stats(self, model: str) -> Dict[str, float]:
+        """
+        Gets the statistics to associate the input user to the different personality types of a given model
+        
+        Args:
+            model (str): Personality model (e.g. MBTI).
+
+        Returns:
+            Dict[str, float]: User's probability to belong to an specific personality type.
+        """
+        if model.lower() == 'enneagram':
+            types = ENNEAGRAM
+        elif model.lower() == 'mbti':
+            types = MBTI
+        else:
+            types = BIGFIVE
         stats = dict()
-        for typ in self.types:
+        for typ in types:
             value = None 
             while value is None:
                 history = [
@@ -51,6 +83,7 @@ class Profiler:
         return stats
                 
     def get_answer(self, history: List[Dict[str, str]]) -> str:
+        """Gets the answer of the LLM from an input history."""
         response = parse_response(ollama.chat(model=self.pretrained, messages=history).message.content)
         history.append({'role': 'assistant', 'content': response})
         return response
