@@ -1,10 +1,10 @@
-import random
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Chat, Session, History
 from .assistant import Assistant
+
 
 # Create your views here.
 def index(request):
@@ -14,6 +14,7 @@ def index(request):
     )
     history.history = []
     history.save()
+    print(request.user.session_set.all())
     return render(request, 'chat/chat.html', context={'history':history})
 
 
@@ -28,9 +29,12 @@ def response(request):
 
 def terminate(request):
     if request.method == 'POST':
+        print('Calling assistant summary')
         assistant = Assistant(request.user)
         new_session = Session(summary=assistant.summary(), user=request.user)
+        print('Ended summary')
         new_session.save()
         del assistant
-        return JsonResponse({'response': f'Session {new_session.id} terminated'})
+        # return JsonResponse({'response': f'Session {new_session.id} terminated'})
+        return redirect('index')
     return JsonResponse({'response': 'Invalid request'}, status=400)

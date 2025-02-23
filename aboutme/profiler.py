@@ -18,14 +18,16 @@ class Profiler:
         self.pretrained = pretrained 
         
     @property
-    def memory(self) -> List[str]:
+    def user_memory(self) -> List[str]:
+        if 'session_set' not in self.user.__dict__.keys():
+            return []
         return list(self.user.session_set.all())
         
     def analysis(self, model: str) -> str:
         history = [
             {'role': 'system', 'content': f'You are a personality profiler based on the {model} test. '},
             {'role': 'system', 'content': 
-                             f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.memory)) + \
+                             f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
                                  f"\nMake an analysis about which personality type is {self.user.first_name}. Do not write more than two paragraphs." }
         ]
         return self.get_answer(history)
@@ -38,7 +40,7 @@ class Profiler:
                 history = [
                     {'role': 'system', 'content': f'You are a personality profiler based on the {model} test. '},
                     {'role': 'system', 'content': 
-                                    f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.memory)) + \
+                                    f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
                                         f'Give me the probability of {self.user.first_name} being {typ}. Only answer a number with % (e.g. 20%).'}
                 ]
                 answer = self.get_answer(history)

@@ -14,15 +14,8 @@ def index(request):
 def analyze(request):
     if request.method == 'POST':
         option = request.POST.get('option', '')
-        profiler = Profiler(request.user)
-        
-        # [PENDING]
-
-        placeholder = [
-            f"Analysis {option} run,"
-        ]
-
-        answer = random.choice(placeholder)
+        print(request.user.session_set.all())
+        answer = Profiler(request.user).analysis(option)
         new_chat = Analysis(option=option, result=answer)
         new_chat.save()
         return JsonResponse({'result': answer})
