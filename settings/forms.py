@@ -4,6 +4,11 @@ from django.contrib.auth.models import User
 
 
 class UserUpdateForm(forms.ModelForm):
+    """
+    Form for updating user profile.
+    Input: forms.ModelForm - The parent class to inherit from.
+    Output: UserUpdateForm - The form with custom fields.
+    """
     email = forms.EmailField(
         required=False,
         label="Email",
@@ -25,6 +30,11 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
+    """
+    Subclass of PasswordChangeForm with custom fields.
+    Input: PasswordChangeForm - The parent class to inherit from.
+    Output: CustomPasswordChangeForm - The subclass with custom fields.
+    """
     old_password = forms.CharField(
         label="Old Password",
         widget=forms.PasswordInput(
