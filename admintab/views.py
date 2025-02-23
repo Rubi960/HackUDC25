@@ -1,25 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 import matplotlib.pyplot as plt
-
-from io import BytesIO
-import base64
-
-def graph_to_file(plot):
-    """
-    Converts a matplotlib plot to a base64 encoded PNG string.
-
-    Input: plot - The matplotlib plot to convert.
-    Output: str - The base64 encoded PNG string of the plot.
-    """
-    buffer = BytesIO()
-    plot.savefig(buffer, format='png',bbox_inches='tight')
-    buffer.seek(0)
-    image_png=buffer.getvalue()
-    graph=base64.b64encode(image_png).decode('utf-8')
-    buffer.close()
-    plt.clf()
-    return graph
+import os, base64
 
 def es_admin(user):
     """
@@ -56,11 +38,13 @@ def your_view(request):
     This view reads the SVG images from the static directory and encodes them in Base64.
     The encoded strings are passed to the template as context variables.
     """
+
     images = [
-        'img/alien.svg',
-        'img/image2.svg',
-        'img/image3.svg',
+        'img/bigfive.svg',
+        'img/enneagram.svg',
+        'img/mbti.svg',
     ]
+
     images_base64 = []
     for image in images:
         with open(os.path.join('static', image), "rb") as image_file:
