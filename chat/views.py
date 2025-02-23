@@ -19,7 +19,6 @@ def index(request):
     )
     history.history = []
     history.save()
-    print(request.user.session_set.all())
     return render(request, 'chat/chat.html', context={'history':history})
 
 
@@ -55,5 +54,5 @@ def terminate(request):
             new_session = Session(summary=assistant.summary(), user=request.user)
             print('Ended summary')
             new_session.save()
-        return redirect('')
+        return JsonResponse({'response': 'Session terminated'}, status=200)
     return JsonResponse({'response': 'Invalid request'}, status=400)

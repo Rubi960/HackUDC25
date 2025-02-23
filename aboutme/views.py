@@ -23,7 +23,6 @@ def analyze(request):
     """
     if request.method == 'POST':
         option = request.POST.get('option', '')
-        print(request.user.session_set.all())
         answer = Profiler(request.user).analysis(option)
         new_chat = Analysis(option=option, result=answer)
         new_chat.save()

@@ -86,9 +86,10 @@
                     "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/chat/"; // Redirige a la URL devuelta por el servidor
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         });
@@ -139,12 +140,16 @@
                         let i = 0;
                         function typeWriter() {
                             if (i < response.length) {
-                                messageElement2.textContent += response.charAt(i);
+                                if (response.charAt(i) === '\n') {
+                                    messageElement2.innerHTML += "<br>"; // Sustituye salto de línea por <br>
+                                } else {
+                                    messageElement2.innerHTML += response.charAt(i);
+                                }
                                 i++;
-                                setTimeout(typeWriter, 30);
+                                setTimeout(typeWriter, 0.00001);
                             } else {
                                 chatInput.disabled = false;
-                                chatInput.placeholder = "Type your message here..."
+                                chatInput.placeholder = "Type your message here...";
                                 sendButton.disabled = false;
                                 sendButton.classList.remove('btn-secondary');
                                 sendButton.classList.add('btn-primary');

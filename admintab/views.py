@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import user_passes_test
 import matplotlib.pyplot as plt
 
 from io import BytesIO
-import base64
+import base64, os
 
 def graph_to_file(plot):
     """

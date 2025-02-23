@@ -1,5 +1,5 @@
 from typing import Dict, List 
-from chat.assistant import parse_response
+from chat.assistant import parse_response, Assistant
 import ollama, re 
 from chat.models import User
 
@@ -28,9 +28,7 @@ class Profiler:
     @property
     def user_memory(self) -> List[str]:
         """Gets the list of previous summaries for the input user."""
-        if 'session_set' not in self.user.__dict__.keys():
-            return []
-        return list(self.user.session_set.all())
+        return list(map(str, self.user.session_set.all()))
         
     def analysis(self, model: str) -> str:
         """Performs a personality analysis given an specific model.
@@ -41,11 +39,12 @@ class Profiler:
         Returns:
             str: Personality analysis.
         """
+        print(self.user_memory)
         history = [
             {'role': 'system', 'content': f'You are a personality profiler based on the {model} test. '},
             {'role': 'system', 'content': 
-                             f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
-                                 f"\nMake an analysis about which personality type is {self.user.first_name}. Do not write more than two paragraphs." }
+                             f'These are the latest things that happened to {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
+                                 f"\nMake an analysis about the {model} personality type. Do not write more than two paragraphs." }
         ]
         return self.get_answer(history)
     
@@ -72,7 +71,7 @@ class Profiler:
                 history = [
                     {'role': 'system', 'content': f'You are a personality profiler based on the {model} test. '},
                     {'role': 'system', 'content': 
-                                    f'These are the latest records of {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
+                                    f'These are the latest things that happened to {self.user.first_name}:\n' + '\n'.join(f'Day {i+1}: {mem}' for i, mem in enumerate(self.user_memory)) + \
                                         f'Give me the probability of {self.user.first_name} being {typ}. Only answer a number with % (e.g. 20%).'}
                 ]
                 answer = self.get_answer(history)

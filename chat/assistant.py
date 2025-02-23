@@ -30,9 +30,7 @@ class Assistant:
     @property
     def user_memory(self) -> List[str]:
         """Gets the list of previous summaries for the input user."""
-        if 'session_set' not in self.user.__dict__.keys():
-            return []
-        return list(self.user.session_set.all())
+        return list(map(str, self.user.session_set.all()))
     
     def add_history(self, new: Dict[str, str]):
         """Adds a new message to the history of the session.
