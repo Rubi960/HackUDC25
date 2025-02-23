@@ -43,7 +43,32 @@
             <div style="margin-top:1em; margin-bottom:1em" class="alert alert-dismissible alert-warning">   
                 <h4 class="alert-heading">Warning!</h4>
                 {{ form.password1.help_text | safe }}
-            </div>                          
+            </div>               
+            
+            {% if form.errors %}
+                <div class="alert alert-dismissible alert-primary">
+                <h2 id="tituloError">ERRORES</h2>
+                <div class="recuadro">
+                    <ul class="errorlist" id="listfull">
+                        {% for field in form %}
+                            {% if field.errors %}
+                            <li>
+                                <p class="erroritem">{{ field.label }}</p>
+                                <ul class="errorlist">
+                                    {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}    
+            </div>
+  
+  
+            
             
 
             <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" data-bs-dismiss="alert" type="submit" name="Create User" value="SIGN UP">
