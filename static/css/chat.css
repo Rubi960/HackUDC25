@@ -71,8 +71,9 @@
   }
   .chat-header {
     padding: 10px;
-    background-color: #742a2a;
-    color: rgb(240, 152, 21);
+    background-color: #007bff;
+    color: rgb(15, 9, 1);
+    font-weight: bold;
     text-align: center;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

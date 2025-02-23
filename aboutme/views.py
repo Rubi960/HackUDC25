@@ -9,17 +9,18 @@ from .profiler import Profiler
 # Create your views here.
 def index(request):
     """
-        Vista que renderiza la página principal del análisis.
+    View for the aboutme page. Renders the 'aboutme/aboutme.html' template.
+    Input: request - The request object containing the current user
+    Output: HttpResponse - The rendered template for the aboutme page.
     """
     return render(request, 'aboutme/aboutme.html')
 
 
 def analyze(request):
     """
-        Vista que procesa la solicitud de análisis
-        - Recibe el tipo de análisis que se desea realizar
-        - Ejecuta el Profiler para obtener el análisis del usuario
-        - Muestra por pantalla el análisis
+    View for handling user analysis requests. Handles POST requests, retrieves the user's analysis option, calls the profiler, saves the analysis, and returns the analysis result.
+    Input: request - The request object containing the user's analysis option.
+    Output: JsonResponse - The analysis result.
     """
     if request.method == 'POST':
         option = request.POST.get('option', '')

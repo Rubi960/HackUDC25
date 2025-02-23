@@ -6,10 +6,27 @@ from .models import History, User
 
 
 def parse_response(response: str) -> str:
+    """
+    Cleans and formats the input response string.
+
+    Removes sections enclosed in <think> tags and formats bold or italicized
+    text by removing markdown-style annotations.
+
+    AInput: string - The response string to be parsed.
+
+    Output: string - The cleaned and formatted response string.
+    """
+
     response = re.sub(r"<think>.*?</think>", "", response, flags=re.DOTALL).strip() 
     return re.sub(r"\*\*(.*?)\*\*|__(.*?)__", lambda m: m.group(1) or m.group(2), response)
     
 class Assistant:
+    """
+    AI assistant class.This class provides methods for interacting with the AI assistant, such as getting the user's name, responding to messages, and generating summaries.
+
+    Input: User - The user object representing the current user.
+    Output: None
+    """
     def __init__(self, user: User, conver: str = 'deepseek-r1:32b', memory: str = 'deepseek-r1:32b'):
         """Initialization of the AI assistant.
 
@@ -33,7 +50,8 @@ class Assistant:
         return list(map(str, self.user.session_set.all()))
     
     def add_history(self, new: Dict[str, str]):
-        """Adds a new message to the history of the session.
+        """
+        Adds a new message to the history of the session.
 
         Args:
             new (Dict[str, str]): New message, with its role and content.

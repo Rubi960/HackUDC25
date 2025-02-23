@@ -25,7 +25,7 @@ def get_project_docs():
 
         for root, _, files in os.walk(app_path):
             for file in files:
-                if file.endswith(".py") and file not in ["__init__.py", "apps.py", "tests.py", "migrations", "0002_history_session.py", "0001_initial.py", "0003_alter_history_history"]:
+                if file.endswith(".py") and file not in ["__init__.py", "apps.py", "tests.py", "migrations", "0002_history_session.py", "0001_initial.py", "0003_alter_history_history.py", "0004_alter_history_history.py"]:
                     file_path = os.path.join(root, file)
                     module_name = os.path.splitext(file)[0]
 

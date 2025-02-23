@@ -8,10 +8,9 @@ from .assistant import Assistant
 
 def index(request):
     """
-        Vista que maneja la página principal del chat.
-        - Obtiene el historial de chat asociado al usuario actual.
-        - Reinicia el historial al acceder a la página.
-        - Renderiza la plantilla 'chat/chat.html'.
+    View for the main chat page. Obtains the chat history associated with the current user and resets it when accessing the page. Renders the 'chat/chat.html' template.
+    Input: request - The request object containing the current user's information.
+    Output: HttpResponse - The rendered template for the chat page.
     """
     history, created = History.objects.get_or_create(
         user=request.user,
@@ -24,13 +23,11 @@ def index(request):
 
 def response(request):
     """
-        Vista que maneja las respuestas del chatbot.
-        - Solicitudes POST.
-        - Obtiene el mensaje enviado por el usuario.
-        - Llama al asistente para obtener una respuesta.
-        - Guarda el intercambio en la base de datos.
-        - Devuelve la respuesta.
+    View for handling user responses. Handles POST requests, retrieves the user's message, calls the assistant, saves the chat, and returns the assistant's response.
+    Input: request - The request object containing the user's message.
+    Output: JsonResponse - The assistant's response.
     """
+
     if request.method == 'POST':
         message = request.POST.get('message', '')
         answer = Assistant(request.user).answer(message)
@@ -41,11 +38,9 @@ def response(request):
 
 def terminate(request):
     """
-        Vista para finalizar la sesión del usuario.
-        - Maneja solicitudes POST.
-        - Llama al asistente para generar un resumen de la sesión.
-        - Guarda la sesión finalizada en la base de datos.
-        - Redirige a la vista 'index' tras finalizar.
+    View for terminating user sessions. Handles POST requests, calls the assistant to generate a summary of the session, saves the session, and redirects to the 'index' view.
+    Input: request - The request object containing the current user's information.
+    Output: JsonResponse - A response indicating the termination of the session.
     """
     if request.method == 'POST':
         assistant = Assistant(request.user)

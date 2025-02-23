@@ -15,6 +15,11 @@ MBTI = ['ISTJ: The Inspector', 'ISTP: The Crafter', 'ISFJ: The Protector', 'ISFP
 BIGFIVE = ['Openness' 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism']
 
 class Profiler:
+    """
+    Class for personality profiling. Contains methods for analyzing the user's personality.
+    Input: User - The user object representing the current user.
+    Output: None
+    """
     def __init__(self, user: User, pretrained: str = 'deepseek-r1:32b'):
         """Initializes the profiler.
 

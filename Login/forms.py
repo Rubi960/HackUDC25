@@ -4,6 +4,13 @@ from django import forms
 
 
 class RegisterForm(UserCreationForm):
+    """
+    Form for registering a new user with email, username and password.
+    
+    Input: None
+    Output: RegisterForm
+    Inherits from UserCreationForm and adds email field.
+    """
     username = forms.CharField(required=True, 
                                label="Usuario",
                                widget=forms.TextInput(attrs={'class': 'input-centrado form-control', 'placeholder': 'Username'})

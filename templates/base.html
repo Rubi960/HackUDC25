@@ -38,14 +38,14 @@
 
 
         {% if user.is_authenticated %}
-            <div class="dropdown">
-                <a class="navbar-brand" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><u>{{user.username}}</u></a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/logout">Sign out</a>
-                    </div>
+        <div style="margin-right: 1em;" class="dropdown">
+            <div style="display: flex; justify-content: center; align-items: center;">
+            <a class="navbar-brand" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><u>{{user.username}}</u></a>
+                <div class="dropdown-menu" style="margin-top: 8em;" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/settings">Settings</a>
+                            <a class="dropdown-item" href="/logout">Sign out</a>
+                        </div>
                 </div>
-            <div class="circle">
-                <p>{{ iniciales }}</p>
             </div>
         {% else %}
             <a class="btn btn-primary" href="{% url 'login' %}">Sign in</a>
