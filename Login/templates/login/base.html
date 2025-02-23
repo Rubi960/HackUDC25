@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
 
-  {% block title %}<title>Iniciar Sesión</title>{% endblock %}
+  {% block title %}<title>Sign in</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,21 +19,21 @@
     <div class="login-container">
       <form style="margin:auto;" method="post" action="{% url 'login' %}" id="inicioSesion" class="login-form centered">
         {% csrf_token %}
-        <h2 id="iniciaSesion"><u>Inicia Sesión</u></h2>
+        <h2 id="iniciaSesion"><u>Sign in</u></h2>
         <div>
           <label for="exampleInputEmail1" class="form-label mt-4">Username</label>
           <input style="height:3em" type="text" class="input-centrado form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">
           <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
-          <input style="height:3em" type="password" class="input-centrado form-control" id="exampleInputPassword1" autocomplete="off" placeholder="Contraseña" name="passwd">
+          <input style="height:3em" type="password" class="input-centrado form-control" id="exampleInputPassword1" autocomplete="off" placeholder="Password" name="passwd">
         </div>
-        <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" type="submit" value="ENTRA">  
+        <input style="margin-top:1em; margin-bottom:1em" class="btn btn-primary" type="submit" value="SIGN IN">  
         {% if error %}
           <div class="alert alert-dismissible alert-primary">
             {{ error }}
           </div>
         {% endif %}
         <div style="margin-top:1em">
-          <p>¿No tienes cuenta? <a href="/register/">¡Registrate!</a></p>
+          <p>Not a user? <a href="/register/">Sign up</a></p>
         </div>     
 
       </form>
