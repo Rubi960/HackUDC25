@@ -37,6 +37,9 @@ ollama pull deepseek-r1:32b
 pip install -r requirements.txt
 ```
 
+> [!CAUTION]
+> The `deepseek-r1:32b` model is **very heavy**. Check your disk space and memory before downloading.
+
 ## :computer: Usage ([Manage.py](manage.py))
 
 It serves the same function as django-admin and sets the DJANGO_SETTINGS_MODULE environment variable to point to the project's settings.py file. This tool uses the [Manage.py](manage.py) definition.
