@@ -3,21 +3,25 @@
 {% block title %}Admin Tab{% endblock %}
 {% block content %}
 
-<h1 style="text-align: center;">Statistics</h1>
+<h1 style="text-align: center; margin-top: 2em;">Statistics</h1>
 
 <!-- Mostrar la gráfica -->
 <!-- Contenedor flexible para las imágenes -->
 <div style="display: flex; justify-content: space-between; align-items: center; margin: 10%;">
-    <div style="text-align: center;">
-      <img src="{% static 'img/alien.svg' %}" alt="Imagen 1" style="width: 100px; height: auto;">
+    
+    <div style="text-align: center; background-color: whitesmoke; color: black; padding-top: 1em; text-decoration: underline;">
+        <h3>Big Five</h3>
+      <img src="{% static 'img/bigfive.svg' %}" alt="Imagen 1" style="width: 100%; height: auto;">
     </div>
     
-    <div style="text-align: center;">
-      <img src="{% static 'img/alien.svg' %}" alt="Imagen 2" style="width: 100px; height: auto;">
+    <div style="text-align: center; background-color: whitesmoke; color: black; padding-top: 1em; text-decoration: underline;">
+        <h3>Enneagram</h3>
+      <img src="{% static 'img/enneagram.svg' %}" alt="Imagen 2" style="width: 100%; height: auto;">
     </div>
     
-    <div style="text-align: center;">
-      <img src="{% static 'img/alien.svg' %}" alt="Imagen 3" style="width: 100px; height: auto;">
+    <div style="text-align: center; background-color: whitesmoke; color: black; padding-top: 1em; text-decoration: underline;">
+        <h3>MBTI</h3>
+      <img src="{% static 'img/mbti.svg' %}" alt="Imagen 3" style="width: 100%; height: auto;">
     </div>
   </div>
 {% endblock %}
