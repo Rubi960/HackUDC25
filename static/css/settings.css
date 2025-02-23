@@ -44,19 +44,31 @@ label {
     max-height: 80vh; 
     overflow-y: auto; 
     text-align: center;
+    display: block;
 }
 
 .settings-form {
     background: rgba(0, 0, 0, 0.3); 
-    padding-bottom: 2em;
+    padding-bottom: 20px;
+    margin-bottom: 1em;
     border-radius: 10px; 
-    color: white; 
+    color: white;
     width: 40em; 
     max-height: 80vh; 
     overflow-y: auto; 
     text-align: center;
+    display: block;
+    align-items: center;
 }
 
+.settings-form .form-label {
+    display: block;
+    margin-top: 1em; 
+}
+
+.btn-abajo {
+    margin-top: 0.5em;
+}
 
 .login-form h2 {
     margin-bottom: 15px;
@@ -66,7 +78,22 @@ label {
     margin-top: 15px;
 }
 
-
+.id_new_password1{
+    width: 100%; /* Ocupar el ancho completo */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 15px; /* Espaciado entre inputs */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: transparent; /* Fondo transparente */
+    color: rgb(8, 4, 4); /* Texto blanco */
+    font-size: 16px; /* Tamaño de fuente */
+  }
+  
+  .custom-input:focus {
+    outline: none; /* Quitar el borde al hacer foco */
+    border-color: white; /* Borde blanco al hacer foco */
+  }
+  
 .register-link {
     margin-top: 10px;
 }

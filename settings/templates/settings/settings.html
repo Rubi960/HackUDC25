@@ -44,7 +44,7 @@
                 <button class="btn btn-primary" type="submit" name="update_profile">Actualizar Perfil</button>
             </form>
             
-            <form autocomplete="off" class="settings-form centered" method="post">
+            <form autocomplete="off" style="margin-bottom: 1em;" class="settings-form centered" method="post">
                 {% csrf_token %}
                 <label class="form-label mt-4" for="{{ field.id_for_label }}">Old password</label>
                 {{password_form.old_password}}
@@ -54,8 +54,10 @@
 
                 <label class="form-label mt-4" for="{{ field.id_for_label }}">Password confirmation</label>
                 {{password_form.new_password2}}
+                <div class="btn-abajo">
+                    <button class="btn btn-primary" type="submit" name="update_password">Cambiar Contraseña</button>
+                </div>
                 
-                <button class="btn btn-primary" type="submit" name="update_password">Cambiar Contraseña</button>
             </form>
         </div>
 
