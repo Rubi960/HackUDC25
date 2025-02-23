@@ -3,24 +3,21 @@
 {% block title %}Admin Tab{% endblock %}
 {% block content %}
 
-<h1>Imágenes SVG en Base64</h1>
+<h1 style="text-align: center;">Statistics</h1>
 
-  <!-- Primera imagen SVG -->
-  <div>
-    <h2>Imagen 1</h2>
-    <img src="data:image/svg+xml;base64,{{ imagen1_base64 }}" alt="Imagen 1">
+<!-- Mostrar la gráfica -->
+<!-- Contenedor flexible para las imágenes -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin: 10%;">
+    <div style="text-align: center;">
+      <img src="{% static 'img/alien.svg' %}" alt="Imagen 1" style="width: 100px; height: auto;">
+    </div>
+    
+    <div style="text-align: center;">
+      <img src="{% static 'img/alien.svg' %}" alt="Imagen 2" style="width: 100px; height: auto;">
+    </div>
+    
+    <div style="text-align: center;">
+      <img src="{% static 'img/alien.svg' %}" alt="Imagen 3" style="width: 100px; height: auto;">
+    </div>
   </div>
-
-  <!-- Segunda imagen SVG -->
-  <div>
-    <h2>Imagen 2</h2>
-    <img src="data:image/svg+xml;base64,{{ imagen2_base64 }}" alt="Imagen 2">
-  </div>
-
-  <!-- Tercera imagen SVG -->
-  <div>
-    <h2>Imagen 3</h2>
-    <img src="data:image/svg+xml;base64,{{ imagen3_base64 }}" alt="Imagen 3">
-  </div>
-
 {% endblock %}

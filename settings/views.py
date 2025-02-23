@@ -8,6 +8,18 @@ from .forms import UserUpdateForm
 # Create your views here.
 @login_required(login_url="/", redirect_field_name=None)
 def settings(request):   
+    """
+    Render and process the settings page for logged-in users.
+
+    Handles both profile updates and password changes submitted via POST requests. If the request method is POST, it processes the update profile or update password actions based on the presence of specific keys in the POST data. Valid profile updates or password changes are saved, and appropriate success messages are displayed. If validation fails, error messages are shown.
+
+    The function also renders the settings page with pre-filled forms when the request method is GET.
+
+    Input: request (HttpRequest) - The HTTP request object containing method and user data.
+
+    Output: HttpResponse - The rendered settings page with user update and password change forms, or redirects to the login page with success/error messages.
+    """
+
     if request.method == "POST":
         user_update_form = UserUpdateForm(request.POST)
         password_form = PasswordChangeForm(request.user, request.POST)

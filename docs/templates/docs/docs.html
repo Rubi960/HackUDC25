@@ -12,15 +12,15 @@
 </head>
 <body>
     <div class="container">
-        <h1>📜 Documentación TerapIA</h1>
+        <h1 style="font-family: serif; text-align: center;">Documentación TerapIA</h1>
 
         <div class="tree">
             <h2>📂 Esquema de clases</h2>
             {% for app, modules in docs.items %}
-                <div class="appI">📦 {{ app }}</div>
+                <div class="appI">🟪 {{ app }}</div>
                 <div id="content_{{ app }}" class="app-content"></div>
                 {% for module, elements in modules.items %}
-                    <div class="moduleI">📜 {{ module }}</div>
+                    <div class="moduleI">🟡 {{ module }}</div>
                     {% for name, doc in elements.items %}
                         <div class="function">
                             🔹 <a href="#doc_{{ name }}">{{ name }}</a>
@@ -33,9 +33,9 @@
         <!-- 🔥 -->
         {% for app, modules in docs.items %}
             <div class="app">
-                <h2>📦 {{ app }}</h2>
+                <h2>🟪 {{ app }}</h2>
                 {% for module, elements in modules.items %}
-                    <div class="module">📜 {{ module }}</div>
+                    <div class="module">🟡 {{ module }}</div>
                     {% for name, doc in elements.items %}
                         <div class="doc-section" id="doc_{{ name }}">
                             <div class="doc-name">{{ name }}</div>
