@@ -8,10 +8,19 @@ from .profiler import Profiler
 
 # Create your views here.
 def index(request):
+    """
+        Vista que renderiza la página principal del análisis.
+    """
     return render(request, 'aboutme/aboutme.html')
 
 
 def analyze(request):
+    """
+        Vista que procesa la solicitud de análisis
+        - Recibe el tipo de análisis que se desea realizar
+        - Ejecuta el Profiler para obtener el análisis del usuario
+        - Muestra por pantalla el análisis
+    """
     if request.method == 'POST':
         option = request.POST.get('option', '')
         print(request.user.session_set.all())
